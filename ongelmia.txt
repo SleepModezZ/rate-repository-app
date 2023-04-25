@@ -1,0 +1,11 @@
+Render Error
+undefined is not an object (evaluating 'formik.getFieldProps')
+ratkaisu: Huomasin käyttää Formik-komponenttia ja antaa sille alkuarvot.
+
+
+
+input flickering. Teksti syöte saattaa palata sekunnin murto-osaksi edelliseksi ja sitten takaisiin uuteen tilaan. Erityisesti tämän huomaa kun tyhjentää kentän yhdestä merkistä ja virheviesti ilmaantuu (ja kentän kehyksen väri muuttuu), sitten poistuu hetkeksi, ja palaa sitten pysyvästi. Sama myös toisinpäin: jos tyhjään kenttään syöttää yhden kirjaimen, se poistuu hetkeksi, ja palaa sitten pysyvästi, väläyttäen virheviestin pois, takaisin. ja pois. Ongelma ei johdu validioinnista, vaan tapahtuu ilmankin, vaikka asiaa ei huomaa niin helposti.
+
+Voisikohan johtua emulaattorista? Repo-listaan vaihdettaessa emulaattorissa saattaa ilmetä välähdys noin sekunnin kuluttua näkymään vaihtamisesta... Joo emulaattori oli ilmeisesti syyllinen, koska sen kaatumisen jälkeen ongelmaa ei enää ilmennyt...
+
+Seuraavalla kerralle melkein tunti kului siihen, että emulaattori lakkasi käynnistymästä. Virheilmoituksista ei ollut apua, mutta emulaattorin uudelleenasennus Android Sudion kautta korjasi ongelman. (Ehkä kuntouttavan työpalvelun kone on jotenkin epävakaa...)
