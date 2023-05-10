@@ -1,6 +1,6 @@
 import { View, StyleSheet, Image } from 'react-native';
-import Text from './Text'
-import theme from '../../theme.js';
+import Text from '../Text'
+import theme from '../../../theme.js';
 
 const styles = StyleSheet.create({
 
