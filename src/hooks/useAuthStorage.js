@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { useContext } from 'react'; 
+import { useContext } from 'react';
 
 const AuthStorageContext = createContext();
 

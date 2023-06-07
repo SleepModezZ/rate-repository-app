@@ -1,36 +1,36 @@
-import { FlatList, View, StyleSheet} from 'react-native';
-import Item from './ListItem'
-import { useQuery } from '@apollo/client';
-import { GET_REPOSITORIES } from '../../graphql/queries';
-import Text from '../Text' 
-
-const styles = StyleSheet.create({
-  separator: {
-    height: 10,
-  }
-});
-
-const ItemSeparator = () => <View style={styles.separator} />;
+import RepositoryListContainer from './RepositoryListContainer';
+import Text from '../Text';
+import useRepositories from '../../hooks/useRepositories';
+import { useState } from 'react';
 
 const RepositoryList = () => {
-  const { data, error, loading } = useQuery(GET_REPOSITORIES);
+  const [orderBy, setOrderBy] = useState('CREATED_AT');
+  const [orderDirection, setOrderDirection] = useState('DESC');
+  const [searchKeyword, setSearchKeyword] = useState('');
 
-  if (loading) return <Text>Loading...</Text>;
-  if (error) return <Text>{error.message}</Text>
+  const { data, loading, error } = useRepositories(orderBy, orderDirection, searchKeyword);
+
+  if (loading) {
+    return <Text>Loading</Text>;
+  }
+  if (error) {
+    return <Text>Error</Text>;
+  }
 
   const repositoryNodes = data.repositories
-  ? data.repositories.edges.map(edge => edge.node)
-  : [];
-
+    ? data.repositories.edges.map((edge) => edge.node)
+    : [];
 
   return (
-      <FlatList
-        data={repositoryNodes}
-        ItemSeparatorComponent={ItemSeparator}
-        renderItem={({item}) => <Item item={item} />}
-        keyExtractor={item => item.id}
-        // other props
-      />
+    <RepositoryListContainer
+      repositories={repositoryNodes}
+      orderBy={orderBy}
+      setOrderBy={setOrderBy}
+      orderDirection={orderDirection}
+      setOrderDirection={setOrderDirection}
+      searchKeyword={searchKeyword}
+      setSearchKeyword={setSearchKeyword}
+    />
   );
 };
 

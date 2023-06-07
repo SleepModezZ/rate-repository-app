@@ -1,11 +1,12 @@
-import { View, StyleSheet, Image } from 'react-native';
-import Text from '../Text'
+import { View, StyleSheet, Image, Pressable } from 'react-native';
+import Text from '../Text';
 import theme from '../../../theme.js';
+import * as Linking from 'expo-linking';
 
 const styles = StyleSheet.create({
-
   itemContainer: {
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    padding: 10,
   },
   flexItemA: {
     padding: 10,
@@ -14,14 +15,14 @@ const styles = StyleSheet.create({
   flexItemB: {
     justifyContent: 'space-around',
     flexDirection: 'row',
-    minHeight: 75
+    minHeight: 75,
   },
   flexItemC: {
     padding: 15,
     flexDirection: 'column',
     flexGrow: 1,
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   box: {
     flexDirection: 'row',
@@ -37,41 +38,66 @@ const styles = StyleSheet.create({
   flexItemE: {
     flexGrow: 2,
   },
-  
+  gitHubButton: {
+    alignItems: 'center',
+    marginLeft: 10,
+    marginBottom: 10,
+    marginRight: 10,
+    padding: 20,
+    flexGrow: 0,
+    backgroundColor: theme.colors.primary,
+    borderRadius: 5,
+  },
   reverseColor: {
-    color: theme.colors.appBar
+    color: theme.colors.appBar,
   },
   logo: {
     width: 60,
     height: 60,
-    borderRadius: 5
+    borderRadius: 5,
   },
   title: {
     fontSize: theme.fontSizes.subheading,
     fontWeight: theme.fontWeights.bold,
-    paddingBottom: 10
+    paddingBottom: 10,
   },
   leftPadding: {
     paddingLeft: 30,
     flexDirection: 'column',
   },
   bold: {
-    fontWeight: theme.fontWeights.bold
-  }
-
+    fontWeight: theme.fontWeights.bold,
+  },
+  gitHubButtonText: {
+    color: theme.colors.appBar,
+    fontWeight: theme.fontWeights.bold,
+  },
 });
 
 const format = (num) => {
   if (num >= 1000) {
-    return "" + (num / 1000).toFixed(1) + "k"
+    return '' + (num / 1000).toFixed(1) + 'k';
   }
-  return "" +  num
-}
+  return '' + num;
+};
 
-const ListItem = ({item}) => (
-  <View style={styles.itemContainer}>
+const GitHubButton = ({ show, url }) => {
+  if (show) {
+    return (
+      <Pressable onPress={() => Linking.openURL(url)}>
+        <View style={styles.gitHubButton}>
+          <Text style={styles.gitHubButtonText}>Open in GitHub</Text>
+        </View>
+      </Pressable>
+    );
+  }
+  return <></>;
+};
+
+const ListItem = ({ item, showGitHubButton }) => (
+  <View style={styles.itemContainer} testID="repositoryItem">
     <View style={styles.flexItemA}>
-      <Image style={styles.logo} source={{uri: item.ownerAvatarUrl}} />
+      <Image style={styles.logo} source={{ uri: item.ownerAvatarUrl }} />
       <View style={styles.leftPadding}>
         <Text style={styles.title}> {item.fullName}</Text>
         <Text>{item.description}</Text>
@@ -79,8 +105,7 @@ const ListItem = ({item}) => (
           <View style={styles.flexItemD}>
             <Text style={styles.reverseColor}>{item.language}</Text>
           </View>
-          <View style={styles.flexItemE}>
-          </View>
+          <View style={styles.flexItemE}></View>
         </View>
       </View>
     </View>
@@ -102,6 +127,7 @@ const ListItem = ({item}) => (
         <Text>Rating</Text>
       </View>
     </View>
+    <GitHubButton show={showGitHubButton} url={item.url} />
   </View>
 );
 
